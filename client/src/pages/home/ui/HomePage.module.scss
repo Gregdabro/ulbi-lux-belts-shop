@@ -1,0 +1,38 @@
+.home {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: linear-gradient(to bottom right, #f8f9fa, #e9ecef);
+}
+
+.container {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: 3rem;
+  color: var(--dark-color);
+  margin-bottom: 1rem;
+  animation: fadeIn 1s ease-in;
+}
+
+.subtitle {
+  font-size: 1.5rem;
+  color: var(--secondary-color);
+  animation: fadeIn 1s ease-in 0.3s backwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
