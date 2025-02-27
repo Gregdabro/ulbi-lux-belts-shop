@@ -2,9 +2,9 @@ import {create} from 'zustand'
 import AuthService from '../../features/api/authService'
 import axios from 'axios'
 import { API_URL, AUTH_ENDPOINTS, STORAGE_TOKEN_KEY } from '../../shared/config/api.config'
+import {devtools} from 'zustand/middleware'
 
-
-export const useStore = create((set) => ({
+export const useStore = create(devtools((set) => ({
     user: {},
     isAuth: false,
     isLoading: false,
@@ -44,11 +44,13 @@ export const useStore = create((set) => ({
             await AuthService.logout()
             localStorage.removeItem(STORAGE_TOKEN_KEY)
             set({ isAuth: false, user: {} })
+            
         } catch (e) {
             if (axios.isAxiosError(e)) {
                 console.log(e.response?.data?.message)
             }
         }
+        //добавить редирект на главную страницу
     },
 
     checkAuth: async () => {
@@ -66,4 +68,4 @@ export const useStore = create((set) => ({
             set({ isLoading: false })
         }
     }
-}))
+})))

@@ -4,6 +4,6 @@ const router = new Router();
 const authMiddleware = require('../middlewares/auth-middleware');
 const checkRoleMiddleware = require('../middlewares/check-role-middleware');
 
-router.get('/', authMiddleware, checkRoleMiddleware(['user']), userController.getUsers);
+router.get('/', authMiddleware, checkRoleMiddleware(['admin']), userController.getUsers);
 
 module.exports = router

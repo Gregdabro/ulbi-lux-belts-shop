@@ -1,6 +1,9 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { HomePage } from '@pages/home'
+import { HomePage } from '@pages/ui/homePage/HomePage'
+import { AuthPage } from '@pages/ui/authPage/AuthPage'
 import { Layout } from '@widgets/layout'
+import { UserProfile } from '@pages/ui/userProfile/UserProfile'
+import { AdminPage } from '@pages/ui/admin/AdminPage'
 
 export const Router = () => {
   return (
@@ -8,6 +11,9 @@ export const Router = () => {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
+          <Route path="auth" element={<AuthPage />} />
+          <Route path="profile" element={<UserProfile />} />
+          <Route path="admin" element={<AdminPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
