@@ -1,34 +1,47 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useStore } from '../../../entities/model/useStore';
 import { useNavigate } from 'react-router-dom';
 import styles from './RegistrationForm.module.scss';
 
 export const RegistrationForm = () => {
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    const { registration } = useStore();
-    const setLoading = useStore.getState().setLoading
-    const [error, setError] = useState('')
-    const navigate = useNavigate()
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [localLoading, setLocalLoading] = useState(false);
+    const { registration, isAuth, user, isLoading } = useStore();
+    const [error, setError] = useState('');
+    const navigate = useNavigate();
+
+    // Отладочный лог при рендере
+    console.log('RegistrationForm render, isAuth:', isAuth, 'isLoading:', isLoading, 'user:', user);
+
+    // Эффект для перенаправления при изменении состояния авторизации
+    useEffect(() => {
+        if (isAuth && !isLoading && !localLoading) {
+            console.log('User registered, redirecting to home');
+            navigate('/', { replace: true });
+        }
+    }, [isAuth, navigate, isLoading, localLoading]);
 
     const handleSubmit = async (e) => {
-        e.preventDefault()
-        setError('')
-        setLoading(true)
+        e.preventDefault();
+        setError('');
+        setLocalLoading(true);
 
         try {
-            registration(email, password)
-            navigate('/', { replace: true })
+            console.log('Calling registration with:', email, password);
+            await registration(email, password);
+            console.log('Registration completed');
         } catch (err) {
-            setError(err.response?.data?.message || 'Ошибка авторизации')
+            console.error('Registration error:', err);
+            setError(err.response?.data?.message || 'Ошибка регистрации');
         } finally {
-            setLoading(false)
+            setLocalLoading(false);
         }
-    }
+    };
 
     return (
         <form onSubmit={handleSubmit} className={styles.form}>
-            <h2 className={styles.title}>Вход</h2>
+            <h2 className={styles.title}>Регистрация</h2>
             
             <div className={styles.field}>
                 <label htmlFor="email" className={styles.label}>
@@ -62,10 +75,13 @@ export const RegistrationForm = () => {
                 <div className={styles.error}>{error}</div>
             )}
 
-            <button type="submit" className={styles.button}>
-                Регистрация
+            <button 
+                type="submit" 
+                className={styles.button} 
+                disabled={isLoading || localLoading}
+            >
+                {(isLoading || localLoading) ? 'Загрузка...' : 'Зарегистрироваться'}
             </button>
         </form>
-    )
+    );
 };
-

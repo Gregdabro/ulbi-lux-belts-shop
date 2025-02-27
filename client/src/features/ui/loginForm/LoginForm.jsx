@@ -4,16 +4,19 @@ import { useNavigate } from 'react-router-dom';
 import styles from './LoginForm.module.scss';
 
 export const LoginForm = () => {
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    const { login, isAuth, user } = useStore();
-    const setLoading = useStore.getState().setLoading
-    const [error, setError] = useState('')
-    const navigate = useNavigate()
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [localLoading, setLocalLoading] = useState(false);
+    const { login, isAuth, user, isLoading } = useStore();
+    const [error, setError] = useState('');
+    const navigate = useNavigate();
+
+    // Отладочный лог при рендере
+    console.log('LoginForm render, isAuth:', isAuth, 'isLoading:', isLoading, 'user:', user);
 
     // Эффект для перенаправления при изменении состояния авторизации
     useEffect(() => {
-        if (isAuth) {
+        if (isAuth && !isLoading && !localLoading) {
             console.log('User authenticated, checking role:', user);
             if (user?.role === 'admin') {
                 navigate('/admin', { replace: true });
@@ -21,21 +24,24 @@ export const LoginForm = () => {
                 navigate('/', { replace: true });
             }
         }
-    }, [isAuth, user, navigate]);
+    }, [isAuth, user, navigate, isLoading, localLoading]);
 
     const handleSubmit = async (e) => {
-        e.preventDefault()
-        setError('')
-        setLoading(true)
+        e.preventDefault();
+        setError('');
+        setLocalLoading(true);
 
         try {
-            // Просто вызываем login, перенаправление будет выполнено в useEffect
-            await login(email, password)
+            console.log('Calling login with:', email, password);
+            await login(email, password);
+            console.log('Login completed');
         } catch (err) {
-            setError(err.response?.data?.message || 'Ошибка авторизации')
-            setLoading(false)
+            console.error('Login error:', err);
+            setError(err.response?.data?.message || 'Ошибка авторизации');
+        } finally {
+            setLocalLoading(false);
         }
-    }
+    };
 
     return (
         <form onSubmit={handleSubmit} className={styles.form}>
@@ -73,9 +79,13 @@ export const LoginForm = () => {
                 <div className={styles.error}>{error}</div>
             )}
 
-            <button type="submit" className={styles.button}>
-                Войти
+            <button 
+                type="submit" 
+                className={styles.button} 
+                disabled={isLoading || localLoading}
+            >
+                {(isLoading || localLoading) ? 'Загрузка...' : 'Войти'}
             </button>
         </form>
-    )
+    );
 };

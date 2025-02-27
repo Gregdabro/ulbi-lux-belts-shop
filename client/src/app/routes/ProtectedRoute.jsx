@@ -1,5 +1,5 @@
-import { Navigate, Outlet } from 'react-router-dom';
-import { useStore } from '../../entities/model/useStore';
+import { Navigate } from "react-router-dom";
+import { useStore } from "../../entities/model/useStore";
 
 /**
  * Компонент для защиты маршрутов, требующих аутентификации
@@ -9,45 +9,50 @@ import { useStore } from '../../entities/model/useStore';
  * @returns {JSX.Element} - Защищенный маршрут или перенаправление
  */
 export const ProtectedRoute = ({ 
-  requiredRole,
-  redirectPath = '/auth',
-  children 
+  children, 
+  requiredRole 
 }) => {
   const { isAuth, user, isLoading } = useStore();
   
-  // Отладочная информация
-  console.log('ProtectedRoute debug:');
-  console.log('requiredRole:', requiredRole);
-  console.log('user object:', user);
-  console.log('user.role:', user.role);
+  // Отладочные логи
+  console.log('ProtectedRoute render:', { 
+    isAuth, 
+    user, 
+    userRole: user?.role,
+    requiredRole,
+    isLoading
+  });
 
-  // Если идет проверка аутентификации, показываем загрузку
+  // Если идет загрузка, показываем индикатор загрузки
   if (isLoading) {
-    return <div>Загрузка...</div>;
+    console.log('ProtectedRoute: Loading...');
+    return <div className="app-loader">Загрузка...</div>;
   }
 
-  // Если пользователь не авторизован, перенаправляем на страницу входа
+  // Если пользователь не авторизован, перенаправляем на страницу авторизации
   if (!isAuth) {
-    return <Navigate to={redirectPath} replace />;
+    console.log('ProtectedRoute: Not authenticated, redirecting to /auth');
+    return <Navigate to="/auth" replace />;
   }
-  
-  // Проверка роли пользователя
+
+  // Если требуется определенная роль
   if (requiredRole) {
-    console.log('Checking role:', user.role, 'Required:', requiredRole);
+    // Проверка роли пользователя
+    const hasRequiredRole = user?.role === requiredRole;
+    console.log('ProtectedRoute: Role check:', { 
+      userRole: user?.role, 
+      requiredRole, 
+      hasRequiredRole 
+    });
     
-    // Строгое сравнение строк для ролей
-    const userRole = String(user.role || '').trim();
-    const requiredRoleStr = String(requiredRole).trim();
-    
-    console.log('Comparing roles:', userRole, '===', requiredRoleStr);
-    
-    if (userRole !== requiredRoleStr) {
-      console.log('Role check failed, redirecting to home');
+    // Если у пользователя нет требуемой роли, перенаправляем на главную страницу
+    if (!hasRequiredRole) {
+      console.log('ProtectedRoute: Insufficient permissions, redirecting to /');
       return <Navigate to="/" replace />;
     }
   }
 
-  // Если все проверки пройдены, показываем защищенный контент
-  console.log('All checks passed, rendering protected content');
-  return children ? children : <Outlet />;
+  // Если все проверки пройдены, отображаем защищенный контент
+  console.log('ProtectedRoute: Access granted');
+  return children;
 };
