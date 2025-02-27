@@ -4,6 +4,7 @@ import { AuthPage } from '@pages/ui/authPage/AuthPage'
 import { Layout } from '@widgets/layout'
 import { UserProfile } from '@pages/ui/userProfile/UserProfile'
 import { AdminPage } from '@pages/ui/admin/AdminPage'
+import { ProtectedRoute } from './ProtectedRoute'
 
 export const Router = () => {
   return (
@@ -12,8 +13,16 @@ export const Router = () => {
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
           <Route path="auth" element={<AuthPage />} />
-          <Route path="profile" element={<UserProfile />} />
-          <Route path="admin" element={<AdminPage />} />
+          <Route path="profile" element={
+            <ProtectedRoute>
+              <UserProfile />
+            </ProtectedRoute>
+          } />
+          <Route path="admin" element={
+            <ProtectedRoute requiredRole="admin">
+              <AdminPage />
+            </ProtectedRoute>
+          } />
         </Route>
       </Routes>
     </BrowserRouter>

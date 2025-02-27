@@ -3,7 +3,7 @@ import { useStore } from "../../entities/model/useStore";
 import { STORAGE_TOKEN_KEY } from "../../shared/config/api.config";
 
 export const AuthProvider = ({ children }) => {
-    const { checkAuth } = useStore();
+    const { checkAuth, isLoading } = useStore();
 
     useEffect(() => {
         if (localStorage.getItem(STORAGE_TOKEN_KEY)) {
@@ -11,5 +11,9 @@ export const AuthProvider = ({ children }) => {
         }
     }, [checkAuth])
 
-  return children;
+    if (isLoading) {
+        return <div className="app-loader">Загрузка...</div>;
+    }
+
+    return children;
 };

@@ -13,6 +13,7 @@ $api.interceptors.request.use((config) => {
 })
 
 $api.interceptors.response.use((config) => {
+    console.log('API Response:', config.config.url, config.data);
     return config;
 },async (error) => {
     const originalRequest = error.config;
@@ -20,10 +21,11 @@ $api.interceptors.response.use((config) => {
         originalRequest._isRetry = true;
         try {
             const response = await axios.get(`${API_URL}/${AUTH_ENDPOINTS.REFRESH}`, {withCredentials: true})
+            console.log('Refresh token response:', response.data);
             localStorage.setItem(STORAGE_TOKEN_KEY, response.data.accessToken);
             return $api.request(originalRequest);
         } catch (e) {
-            console.log('НЕ АВТОРИЗОВАН')
+            console.log('НЕ АВТОРИЗОВАН', e)
         }
     }
     throw error;

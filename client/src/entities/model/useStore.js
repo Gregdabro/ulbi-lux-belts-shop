@@ -16,13 +16,15 @@ export const useStore = create(devtools((set) => ({
     login: async (email, password) => {
         try {
             const response = await AuthService.login(email, password)
-            console.log(response)
+            console.log('Login response:', response)
             localStorage.setItem(STORAGE_TOKEN_KEY, response.data.accessToken)
             set({ isAuth: true, user: response.data.user })
+            return response.data.user // Возвращаем пользователя для возможности использования await
         } catch (e) {
             if (axios.isAxiosError(e)) {
                 console.log(e.response?.data?.message)
             }
+            throw e // Пробрасываем ошибку для обработки в компоненте
         }
     },
 
@@ -32,10 +34,12 @@ export const useStore = create(devtools((set) => ({
             console.log(response)
             localStorage.setItem(STORAGE_TOKEN_KEY, response.data.accessToken)
             set({ isAuth: true, user: response.data.user })
+            return response.data.user
         } catch (e) {
             if (axios.isAxiosError(e)) {
                 console.log(e.response?.data?.message)
             }
+            throw e
         }
     },
 
@@ -44,11 +48,12 @@ export const useStore = create(devtools((set) => ({
             await AuthService.logout()
             localStorage.removeItem(STORAGE_TOKEN_KEY)
             set({ isAuth: false, user: {} })
-            
+            return true
         } catch (e) {
             if (axios.isAxiosError(e)) {
                 console.log(e.response?.data?.message)
             }
+            throw e
         }
         //добавить редирект на главную страницу
     },
@@ -57,13 +62,15 @@ export const useStore = create(devtools((set) => ({
         set({ isLoading: true })
         try {
             const response = await axios.get(`${API_URL}/${AUTH_ENDPOINTS.REFRESH}`, {withCredentials: true})
-            console.log(response)
+            console.log('Check auth response:', response)
             localStorage.setItem(STORAGE_TOKEN_KEY, response.data.accessToken)
             set({ isAuth: true, user: response.data.user })
+            return response.data.user
         } catch (e) {
             if (axios.isAxiosError(e)) {
                 console.log(e.response?.data?.message)
             }
+            throw e
         } finally {
             set({ isLoading: false })
         }
