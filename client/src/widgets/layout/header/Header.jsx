@@ -1,9 +1,9 @@
 import { Link, useNavigate } from 'react-router-dom'
 import styles from './Header.module.scss'
-import { useStore } from '../../../entities/model/useStore'
+import { useAuthStore } from '../../../entities/model/useAuthStore'
 
 export const Header = () => {
-  const { isAuth, user, logout } = useStore();
+  const { isAuth, user, logout } = useAuthStore();
   const navigate = useNavigate();
 
   return (

@@ -1,9 +1,8 @@
 import $api from "../../shared/api/axios/interceptors";
-import {USER_ENDPOINTS} from "../../shared/config/api.config";
+import { USER_ENDPOINTS } from "../../shared/config/api.config";
 
 export default class UserService {
-    static fetchUsers() {
-        return $api.get(USER_ENDPOINTS.GET_ALL)
+    static async getAll() {
+        return $api.get(USER_ENDPOINTS.GET_ALL);
     }
 }
-

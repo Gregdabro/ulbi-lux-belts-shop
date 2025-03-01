@@ -1,5 +1,5 @@
 import { Navigate } from "react-router-dom";
-import { useStore } from "../../entities/model/useStore";
+import { useAuthStore } from "../../entities/model/useAuthStore";
 
 /**
  * Компонент для защиты маршрутов, требующих аутентификации
@@ -12,7 +12,7 @@ export const ProtectedRoute = ({
   children, 
   requiredRole 
 }) => {
-  const { isAuth, user, isLoading } = useStore();
+  const { isAuth, user, isLoading } = useAuthStore();
   
   // Отладочные логи
   console.log('ProtectedRoute render:', { 

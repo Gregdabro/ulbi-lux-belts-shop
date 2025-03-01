@@ -1,7 +1,7 @@
-import { useStore } from '../../../entities/model/useStore';
+import { useAuthStore } from '../../../entities/model/useAuthStore';
 
 export const UserProfile = () => {
-  const { isLoading, user } = useStore();
+  const { isLoading, user } = useAuthStore();
 
 
   if (isLoading) {

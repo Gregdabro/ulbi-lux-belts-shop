@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useStore } from '../../../entities/model/useStore';
+import { useAuthStore } from '../../../entities/model/useAuthStore';
 import { useNavigate } from 'react-router-dom';
 import styles from './LoginForm.module.scss';
 
@@ -7,7 +7,7 @@ export const LoginForm = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [localLoading, setLocalLoading] = useState(false);
-    const { login, isAuth, user, isLoading } = useStore();
+    const { login, isAuth, user, isLoading } = useAuthStore();
     const [error, setError] = useState('');
     const navigate = useNavigate();
 

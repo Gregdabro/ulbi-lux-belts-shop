@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { useStore } from "../../entities/model/useStore";
+import { useAuthStore } from "../../entities/model/useAuthStore";
 import { STORAGE_TOKEN_KEY } from "../../shared/config/api.config";
 
 export const AuthProvider = ({ children }) => {
-    const { checkAuth } = useStore();
-    const isLoading = useStore(state => state.isLoading);
+    const { checkAuth } = useAuthStore();
+    const isLoading = useAuthStore(state => state.isLoading);
     const [isInitializing, setIsInitializing] = useState(true);
     
     console.log('AuthProvider render, isLoading:', isLoading, 'isInitializing:', isInitializing);

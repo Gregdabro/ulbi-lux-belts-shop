@@ -1,36 +1,64 @@
-import {useState} from 'react'
-import UserService from "../../../features/api/userService";
-import { useStore } from '../../../entities/model/useStore';
+import { useAuthStore } from '../../../entities/model/useAuthStore';
+import { useUserStore } from '../../../entities/model/useUserStore';
+import styles from './AdminPage.module.scss';
+import { useEffect, useState } from 'react';
 
 export const AdminPage = () => {
-  const { isLoading, user } = useStore();
-  const [users, setUsers] = useState([]);
+  const { isLoading: authLoading, user } = useAuthStore();
+  const { users, isLoading: usersLoading, error, fetchUsers } = useUserStore();
+  const [showUsers, setShowUsers] = useState(false);
 
+  const handleGetUsers = async () => {
+    try {
+      await fetchUsers();
+      setShowUsers(true);
+    } catch (error) {
+      console.error('Ошибка при получении пользователей:', error);
+    }
+  };
 
-  async function getUsers() {
-      try {
-          const response = await UserService.fetchUsers();
-          setUsers(response.data);
-      } catch (e) {
-          console.log(e);
-      }
+  if (authLoading) {
+    return <div className={styles.loading}>Загрузка...</div>;
   }
-
-  if (isLoading) {
-      return <div>Загрузка...</div>
-  }
-
-
   return (
-      <div>
-          <h1>Админ-панель</h1>
-          <p>{user?.email} Добро пожаловать в панель администратора.</p>
-          <div>
-              <button onClick={getUsers}>Получить пользователей</button>
-          </div>
-          {users.map(user =>
-              <div key={user.email}>{user.email}</div>
-          )}
+    <div className={styles.adminPage}>
+      <h1 className={styles.title}>Админ-панель</h1>
+      <p className={styles.welcome}>{user?.email} Добро пожаловать в панель администратора.</p>
+      
+      <div className={styles.actions}>
+        <button 
+          className={styles.button} 
+          onClick={handleGetUsers}
+          disabled={usersLoading}
+        >
+          {usersLoading ? 'Загрузка...' : 'Получить пользователей'}
+        </button>
       </div>
+
+      {error && <div className={styles.error}>{error}</div>}
+
+      {showUsers && (
+        <div className={styles.usersContainer}>
+          <h2 className={styles.subtitle}>Список пользователей</h2>
+          {users.length > 0 ? (
+            <ul className={styles.usersList}>
+              {users.map((user) => (
+                <li key={user._id} className={styles.userItem}>
+                  <div className={styles.userInfo}>
+                    <span className={styles.userEmail}>{user.email}</span>
+                    <span className={styles.userRole}>{user.roles?.map(role => role.value).join(', ')}</span>
+                    <span className={`${styles.userStatus} ${!user.isActivated ? styles.notActivated : ''}`}>
+                      {user.isActivated ? 'Активирован' : 'Не активирован'}
+                    </span>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className={styles.emptyList}>Пользователи не найдены</p>
+          )}
+        </div>
+      )}
+    </div>
   );
 };

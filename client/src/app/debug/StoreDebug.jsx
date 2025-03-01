@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useStore } from '../../entities/model/useStore';
+import { useAuthStore } from '../../entities/model/useAuthStore';
 import { STORAGE_TOKEN_KEY } from '../../shared/config/api.config';
 
 export const StoreDebug = () => {
-  const { user, isAuth, isLoading } = useStore();
+  const { user, isAuth, isLoading } = useAuthStore();
   const [renderCount, setRenderCount] = useState(0);
   
   // Отслеживаем количество рендеров

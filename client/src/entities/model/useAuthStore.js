@@ -4,7 +4,7 @@ import axios from 'axios'
 import { API_URL, AUTH_ENDPOINTS, STORAGE_TOKEN_KEY } from '../../shared/config/api.config'
 import {devtools} from 'zustand/middleware'
 
-export const useStore = create(devtools((set, get) => ({
+export const useAuthStore = create(devtools((set, get) => ({
     user: {},
     isAuth: false,
     isLoading: false,
