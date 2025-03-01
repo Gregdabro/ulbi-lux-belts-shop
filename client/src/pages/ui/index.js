@@ -1,2 +1,6 @@
 export { HomePage } from './ui/homePage/HomePage'
 export { AuthPage } from './ui/authPage/AuthPage'
+export { ProductsPage } from './ui/products/ProductsPage'
+export { ProductDetailsPage } from './ui/productDetails/ProductDetailsPage'
+export { AdminPage } from './ui/admin/AdminPage'
+export { UserProfile } from './ui/userProfile/UserProfile'

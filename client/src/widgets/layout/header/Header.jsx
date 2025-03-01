@@ -14,7 +14,9 @@ export const Header = () => {
         </Link>
         <nav className={styles.nav}>
           <Link to="/" className={styles.link}>Главная</Link>
+          <Link to="/products" className={styles.link}>Товары</Link>
           {isAuth ? <Link to="/profile" className={styles.link}>{user.email}</Link> : <Link to="/auth" className={styles.link}>Войти</Link>}
+          {isAuth && user?.roles?.some(role => role.value === 'admin') && <Link to="/admin" className={styles.link}>Админ-панель</Link>}
           {isAuth && <button onClick={logout} className={styles.link}>Выйти</button>}
         </nav>
       </div>

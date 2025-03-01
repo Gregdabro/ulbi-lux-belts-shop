@@ -7,7 +7,6 @@ export const AdminPage = () => {
   const { isLoading: authLoading, user } = useAuthStore();
   const { users, isLoading: usersLoading, error, fetchUsers } = useUserStore();
   const [showUsers, setShowUsers] = useState(false);
-
   const handleGetUsers = async () => {
     try {
       await fetchUsers();
@@ -43,7 +42,7 @@ export const AdminPage = () => {
           {users.length > 0 ? (
             <ul className={styles.usersList}>
               {users.map((user) => (
-                <li key={user._id} className={styles.userItem}>
+                <li key={user.id} className={styles.userItem}>
                   <div className={styles.userInfo}>
                     <span className={styles.userEmail}>{user.email}</span>
                     <span className={styles.userRole}>{user.roles?.map(role => role.value).join(', ')}</span>
