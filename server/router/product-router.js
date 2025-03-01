@@ -17,7 +17,7 @@ router.get('/category/:category', productController.getProductsByCategory);
 // Создание продукта (только для админов)
 router.post('/',
     authMiddleware,
-    checkRoleMiddleware(['admin']),
+    checkRoleMiddleware(['ADMIN']),
     body('title').isString().isLength({min: 3, max: 100}),
     body('description').isString().isLength({min: 10}),
     body('price').isNumeric().isFloat({min: 0}),
@@ -28,7 +28,7 @@ router.post('/',
 // Обновление продукта (только для админов)
 router.put('/:id',
     authMiddleware,
-    checkRoleMiddleware(['admin']),
+    checkRoleMiddleware(['ADMIN']),
     body('title').optional().isString().isLength({min: 3, max: 100}),
     body('description').optional().isString().isLength({min: 10}),
     body('price').optional().isNumeric().isFloat({min: 0}),
@@ -39,7 +39,7 @@ router.put('/:id',
 // Удаление продукта (только для админов)
 router.delete('/:id',
     authMiddleware,
-    checkRoleMiddleware(['admin']),
+    checkRoleMiddleware(['ADMIN']),
     productController.deleteProduct
 );
 

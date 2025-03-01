@@ -23,7 +23,7 @@ export const Router = () => {
             </ProtectedRoute>
           } />
           <Route path="admin" element={
-            <ProtectedRoute requiredRole="admin">
+            <ProtectedRoute requiredRole="ADMIN">
               <AdminPage />
             </ProtectedRoute>
           } />

@@ -13,4 +13,16 @@ export default class ProductService {
     static async getByCategory(category) {
         return $api.get(`${PRODUCT_ENDPOINTS.GET_ALL}/category/${category}`);
     }
+    
+    static async createProduct(productData) {
+        return $api.post(PRODUCT_ENDPOINTS.GET_ALL, productData);
+    }
+    
+    static async updateProduct(id, productData) {
+        return $api.put(`${PRODUCT_ENDPOINTS.GET_ALL}/${id}`, productData);
+    }
+    
+    static async deleteProduct(id) {
+        return $api.delete(`${PRODUCT_ENDPOINTS.GET_ALL}/${id}`);
+    }
 }

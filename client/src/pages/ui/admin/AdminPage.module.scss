@@ -22,8 +22,50 @@
   color: #555;
 }
 
-.actions {
+.tabs {
+  display: flex;
   margin-bottom: 24px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.tabButton {
+  padding: 12px 20px;
+  background: none;
+  border: none;
+  font-size: 16px;
+  color: #555;
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
+  
+  &:hover {
+    color: #4a76a8;
+  }
+}
+
+.activeTab {
+  color: #4a76a8;
+  font-weight: 500;
+  
+  &:after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #4a76a8;
+  }
+}
+
+.section {
+  margin-bottom: 30px;
+}
+
+.actions, .actionBar {
+  margin-bottom: 24px;
+  display: flex;
+  gap: 12px;
 }
 
 .button {
@@ -44,6 +86,36 @@
     background-color: #cccccc;
     cursor: not-allowed;
   }
+}
+
+.createButton {
+  background-color: #4caf50;
+  
+  &:hover {
+    background-color: #388e3c;
+  }
+}
+
+.formContainer {
+  margin-bottom: 24px;
+}
+
+.productsContainer {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.accessDenied {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 18px;
+  color: #e53935;
+  text-align: center;
+  padding: 20px;
 }
 
 .loading {

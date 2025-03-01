@@ -107,5 +107,95 @@ export const useProductStore = create(devtools((set, get) => ({
     clearProduct: () => {
         console.log('clearProduct called');
         set({ product: null });
+    },
+    
+    createProduct: async (productData) => {
+        console.log('createProduct called with:', productData);
+        set({ isLoading: true, error: null });
+        
+        try {
+            const response = await ProductService.createProduct(productData);
+            console.log('Create product response:', response);
+            
+            // Добавляем новый товар в список товаров
+            const newProducts = [...get().products, response.data];
+            set({ products: newProducts });
+            
+            return response.data;
+        } catch (e) {
+            if (axios.isAxiosError(e)) {
+                const errorMessage = e.response?.data?.message || 'Ошибка при создании товара';
+                console.log(errorMessage);
+                set({ error: errorMessage });
+            } else {
+                set({ error: 'Неизвестная ошибка при создании товара' });
+            }
+            throw e;
+        } finally {
+            console.log('Finally block in createProduct, setting isLoading to false');
+            set({ isLoading: false });
+        }
+    },
+    
+    updateProduct: async (id, productData) => {
+        console.log(`updateProduct called with id: ${id}, data:`, productData);
+        set({ isLoading: true, error: null });
+        
+        try {
+            const response = await ProductService.updateProduct(id, productData);
+            console.log('Update product response:', response);
+            
+            // Обновляем товар в списке товаров
+            const updatedProducts = get().products.map(product => 
+                product.id === id ? response.data : product
+            );
+            
+            set({ 
+                products: updatedProducts,
+                product: response.data
+            });
+            
+            return response.data;
+        } catch (e) {
+            if (axios.isAxiosError(e)) {
+                const errorMessage = e.response?.data?.message || 'Ошибка при обновлении товара';
+                console.log(errorMessage);
+                set({ error: errorMessage });
+            } else {
+                set({ error: 'Неизвестная ошибка при обновлении товара' });
+            }
+            throw e;
+        } finally {
+            console.log('Finally block in updateProduct, setting isLoading to false');
+            set({ isLoading: false });
+        }
+    },
+    
+    deleteProduct: async (id) => {
+        console.log(`deleteProduct called with id: ${id}`);
+        set({ isLoading: true, error: null });
+        
+        try {
+            const response = await ProductService.deleteProduct(id);
+            console.log('Delete product response:', response);
+            
+            // Удаляем товар из списка товаров
+            const filteredProducts = get().products.filter(product => product.id !== id);
+            set({ products: filteredProducts });
+            
+            return response.data;
+        } catch (e) {
+            if (axios.isAxiosError(e)) {
+                const errorMessage = e.response?.data?.message || 'Ошибка при удалении товара';
+                console.log(errorMessage);
+                set({ error: errorMessage });
+            } else {
+                set({ error: 'Неизвестная ошибка при удалении товара' });
+            }
+            throw e;
+        } finally {
+            console.log('Finally block in deleteProduct, setting isLoading to false');
+            set({ isLoading: false });
+        }
     }
 })));

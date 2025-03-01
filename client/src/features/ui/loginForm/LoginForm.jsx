@@ -18,7 +18,7 @@ export const LoginForm = () => {
     useEffect(() => {
         if (isAuth && !isLoading && !localLoading) {
             console.log('User authenticated, checking role:', user);
-            if (user?.role === 'admin') {
+            if (user?.role === 'ADMIN') {
                 navigate('/admin', { replace: true });
             } else {
                 navigate('/', { replace: true });
