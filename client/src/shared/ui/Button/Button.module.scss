@@ -1,0 +1,106 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  outline: none;
+  font-family: inherit;
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}
+
+/* Варианты */
+.primary {
+  background-color: var(--primary-color, #4a76a8);
+  color: white;
+  
+  &:hover {
+    background-color: var(--primary-hover-color, #3a5b88);
+  }
+  
+  &:active {
+    background-color: var(--primary-active-color, #2c4a73);
+  }
+}
+
+.secondary {
+  background-color: var(--secondary-color, #6c757d);
+  color: white;
+  
+  &:hover {
+    background-color: var(--secondary-hover-color, #5a6268);
+  }
+  
+  &:active {
+    background-color: var(--secondary-active-color, #495057);
+  }
+}
+
+.outlined {
+  background-color: transparent;
+  border: 1px solid var(--primary-color, #4a76a8);
+  color: var(--primary-color, #4a76a8);
+  
+  &:hover {
+    background-color: rgba(74, 118, 168, 0.1);
+  }
+  
+  &:active {
+    background-color: rgba(74, 118, 168, 0.2);
+  }
+}
+
+.text {
+  background-color: transparent;
+  color: var(--primary-color, #4a76a8);
+  
+  &:hover {
+    background-color: rgba(74, 118, 168, 0.1);
+  }
+  
+  &:active {
+    background-color: rgba(74, 118, 168, 0.2);
+  }
+}
+
+.danger {
+  background-color: var(--danger-color, #dc3545);
+  color: white;
+  
+  &:hover {
+    background-color: var(--danger-hover-color, #c82333);
+  }
+  
+  &:active {
+    background-color: var(--danger-active-color, #bd2130);
+  }
+}
+
+/* Размеры */
+.small {
+  padding: 6px 12px;
+  font-size: 14px;
+}
+
+.medium {
+  padding: 10px 16px;
+  font-size: 16px;
+}
+
+.large {
+  padding: 12px 20px;
+  font-size: 18px;
+}
+
+/* Полная ширина */
+.fullWidth {
+  width: 100%;
+}

@@ -3,6 +3,7 @@ import { useUserStore } from '../../../entities/model/useUserStore';
 import { useProductStore } from '../../../entities/model/useProductStore';
 import { ProductForm } from '../../../widgets/productForm';
 import { ProductList } from '../../../widgets/productList';
+import { USER_ROLES } from '@shared/config/constants';
 import styles from './AdminPage.module.scss';
 import { useEffect, useState } from 'react';
 
@@ -91,8 +92,8 @@ export const AdminPage = () => {
     return <div className={styles.loading}>Загрузка...</div>;
   }
   
-  if (!user || !user.role?.includes('ADMIN')) {
-    console.log(user.role?.includes('ADMIN'));
+  if (!user || !user.role?.includes(USER_ROLES.ADMIN)) {
+    console.log(user.role?.includes(USER_ROLES.ADMIN));
     return <div className={styles.accessDenied}>Доступ запрещен. Только для администраторов.</div>;
   }
 

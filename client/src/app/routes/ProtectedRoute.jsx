@@ -1,5 +1,6 @@
 import { Navigate } from "react-router-dom";
 import { useAuthStore } from "../../entities/model/useAuthStore";
+import { APP_ROUTES, USER_ROLES } from '@shared/config/constants';
 
 /**
  * Компонент для защиты маршрутов, требующих аутентификации
@@ -31,8 +32,8 @@ export const ProtectedRoute = ({
 
   // Если пользователь не авторизован, перенаправляем на страницу авторизации
   if (!isAuth) {
-    console.log('ProtectedRoute: Not authenticated, redirecting to /auth');
-    return <Navigate to="/auth" replace />;
+    console.log('ProtectedRoute: Not authenticated, redirecting to auth');
+    return <Navigate to={APP_ROUTES.AUTH} replace />;
   }
 
   // Если требуется определенная роль
@@ -47,8 +48,8 @@ export const ProtectedRoute = ({
     
     // Если у пользователя нет требуемой роли, перенаправляем на главную страницу
     if (!hasRequiredRole) {
-      console.log('ProtectedRoute: Insufficient permissions, redirecting to /');
-      return <Navigate to="/" replace />;
+      console.log('ProtectedRoute: Insufficient permissions, redirecting to home');
+      return <Navigate to={APP_ROUTES.HOME} replace />;
     }
   }
 

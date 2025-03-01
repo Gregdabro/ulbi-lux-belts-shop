@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useAuthStore } from '../../../entities/model/useAuthStore';
 import { useNavigate } from 'react-router-dom';
 import styles from './LoginForm.module.scss';
+import { APP_ROUTES, USER_ROLES } from '@shared/config/constants';
 
 export const LoginForm = () => {
     const [email, setEmail] = useState('');
@@ -18,10 +19,10 @@ export const LoginForm = () => {
     useEffect(() => {
         if (isAuth && !isLoading && !localLoading) {
             console.log('User authenticated, checking role:', user);
-            if (user?.role === 'ADMIN') {
-                navigate('/admin', { replace: true });
+            if (user?.role === USER_ROLES.ADMIN) {
+                navigate(APP_ROUTES.ADMIN, { replace: true });
             } else {
-                navigate('/', { replace: true });
+                navigate(APP_ROUTES.HOME, { replace: true });
             }
         }
     }, [isAuth, user, navigate, isLoading, localLoading]);

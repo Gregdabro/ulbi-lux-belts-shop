@@ -1,0 +1,51 @@
+.card {
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+/* Варианты */
+.default {
+  background-color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.outlined {
+  background-color: white;
+  border: 1px solid var(--border-color, #ddd);
+}
+
+.elevated {
+  background-color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Эффект при наведении */
+.hoverable {
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* Полная ширина */
+.fullWidth {
+  width: 100%;
+}
+
+/* Компоненты карточки */
+.header {
+  padding: 16px;
+  border-bottom: 1px solid var(--border-color, #eee);
+  font-weight: 500;
+}
+
+.content {
+  padding: 16px;
+}
+
+.footer {
+  padding: 16px;
+  border-top: 1px solid var(--border-color, #eee);
+  background-color: var(--bg-light, #f9f9f9);
+}

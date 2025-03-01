@@ -7,23 +7,24 @@ import { AdminPage } from '@pages/ui/admin/AdminPage'
 import { ProductsPage } from '@pages/ui/products/ProductsPage'
 import { ProductDetailsPage } from '@pages/ui/productDetails/ProductDetailsPage'
 import { ProtectedRoute } from './ProtectedRoute'
+import { APP_ROUTES, USER_ROLES } from '@shared/config/constants'
 
 export const Router = () => {
   return (
     <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <Routes>
-        <Route path="/" element={<Layout />}>
+        <Route path={APP_ROUTES.HOME} element={<Layout />}>
           <Route index element={<HomePage />} />
-          <Route path="auth" element={<AuthPage />} />
-          <Route path="products" element={<ProductsPage />} />
-          <Route path="products/:id" element={<ProductDetailsPage />} />
-          <Route path="profile" element={
+          <Route path={APP_ROUTES.AUTH.slice(1)} element={<AuthPage />} />
+          <Route path={APP_ROUTES.PRODUCTS.slice(1)} element={<ProductsPage />} />
+          <Route path={APP_ROUTES.PRODUCT_DETAILS.slice(1)} element={<ProductDetailsPage />} />
+          <Route path={APP_ROUTES.PROFILE.slice(1)} element={
             <ProtectedRoute>
               <UserProfile />
             </ProtectedRoute>
           } />
-          <Route path="admin" element={
-            <ProtectedRoute requiredRole="ADMIN">
+          <Route path={APP_ROUTES.ADMIN.slice(1)} element={
+            <ProtectedRoute requiredRole={USER_ROLES.ADMIN}>
               <AdminPage />
             </ProtectedRoute>
           } />

@@ -1,0 +1,75 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+}
+
+.fullPage {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.8);
+  z-index: 1000;
+}
+
+.loader {
+  display: inline-block;
+  position: relative;
+}
+
+.spinner {
+  border-radius: 50%;
+  border-style: solid;
+  border-color: currentColor transparent currentColor transparent;
+  animation: spin 1.2s linear infinite;
+}
+
+/* Размеры */
+.small {
+  .spinner {
+    width: 24px;
+    height: 24px;
+    border-width: 2px;
+  }
+}
+
+.medium {
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border-width: 3px;
+  }
+}
+
+.large {
+  .spinner {
+    width: 64px;
+    height: 64px;
+    border-width: 4px;
+  }
+}
+
+/* Цвета */
+.primary {
+  color: var(--primary-color, #4a76a8);
+}
+
+.secondary {
+  color: var(--secondary-color, #6c757d);
+}
+
+.white {
+  color: white;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
